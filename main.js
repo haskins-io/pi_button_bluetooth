@@ -17,8 +17,6 @@ class ButtonCharacteristic extends bleno.Characteristic {
             properties: ["notify"],
             value: null
         });
-
-        this.counter = 0;
     }
 
     onSubscribe(maxValueSize, updateValueCallback) {
@@ -31,23 +29,23 @@ class ButtonCharacteristic extends bleno.Characteristic {
         this.updateValueCallback = null;
     }
 
-    sendNotification(value) {
+    sendNotification(button, value) {
         if(this.updateValueCallback) {
             console.log(`Sending notification with value ${value}`);
 
             const notificationBytes = new Buffer(2);
-            notificationBytes.writeInt16LE(value);
+            notificationBytes.writeInt8(button, 0);
+            notificationBytes.writeInt8(value, 1);
 
             this.updateValueCallback(notificationBytes);
         }
     }
 
     start() {
-        console.log("Starting ButtonChar");
-//        this.handle = setInterval(() => {
-//            this.counter = (this.counter + 1) % 0xFFFF;
-//            this.sendNotification(this.counter);
-//        }, 1000);
+        console.log("Starting HeartBeat");
+         this.handle = setInterval(() => {
+             this.sendNotification(1, 0);
+         }, 5000);
     }
 
     stop() {
@@ -105,7 +103,7 @@ buttonIO.watch((err, value) => {
   }
 
   console.log("Button Pressed");
-  buttonChar.sendNotification(1);
+  buttonChar.sendNotification(1, 1);
 });
 
 process.on('SIGINT', _ => {

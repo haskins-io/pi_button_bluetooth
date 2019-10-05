@@ -114,7 +114,29 @@ extension ViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 
        if characteristic.uuid == Button_Characteristic_CBUUID {
-            print(characteristic)
+            let button = whichButton(from: characteristic)
+            let action = buttonAction(from: characteristic)
        }
+    }
+
+    private func whichButton(from characteristic: CBCharacteristic) -> String {
+
+        guard let characteristicData = characteristic.value,
+          let byte = characteristicData.first else { return "Error" }
+
+        switch byte {
+          case 1: return "1"
+          default:
+            return "Unknown"
+        }
+    }
+
+    private func buttonAction(from characteristic: CBCharacteristic) -> String {
+
+        guard let characteristicData = characteristic.value else { return "Error"  }
+        let byteArray = [UInt8](characteristicData)
+
+        let firstBitValue = byteArray[1]
+        return String(firstBitValue)
     }
 }
