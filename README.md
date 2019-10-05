@@ -8,7 +8,7 @@ The idea behind this code was to achieve the following:
 * A raspberry PI acts as a Bluetooth peripheral
 * A button is pressed, that is connected to a raspberry pi (in this case a zero w)
 * The press is detected via GPIO
-* A message is sent via Bluetooth to a Mac computer acts as a Bluetooth peripheral
+* A message is sent via Bluetooth to a Mac computer acts as a Bluetooth central
 * Swift code detects the incoming message and prints out a message
 
 
