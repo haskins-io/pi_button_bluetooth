@@ -12,4 +12,9 @@ The idea behind this code was to achieve the following:
 * Swift code detects the incoming message and prints out a message
 
 
+## Dependencies
+* bleno : is used for Bluetooth communication
+* onoff : is used to detect GPIO activity
 
+## Notes
+I couldn't get bleno to compile using a new version of Node, so I've used Nodejs 8.x
